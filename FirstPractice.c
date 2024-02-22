@@ -6,6 +6,6 @@ int main(){
     char name[100];
     printf("Enter Your name please");
     scanf("%s", &name);
-
+    printf("our project is a boute file map")
     
 }
