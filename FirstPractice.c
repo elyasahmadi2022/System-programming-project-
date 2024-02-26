@@ -1,6 +1,16 @@
 #include<stdio.h>
-int main(){
-    printf("Aslam Alikum ! Welcome to our First practice about our project");
-    printf("I will try my best to solve this project as well as possible.");
+int main(int argu, char *argv[]){
+    if(strcmp(argv[1], "-h") == 0){
+
+        printf("listing all hidden files...");
+        printf("\n");
+    }
+    else if(strcmp(argv[1], "-e") == 0)
+    {
+        printf("listing all encrypted files..");
+        printf("\n");
+    }
+    return 0;
+    
   
 }
