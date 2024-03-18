@@ -10,4 +10,17 @@ read $name
 echo "Your Name is $name"
 echo "How old are you "
 read $age
-echo "You are about $age year old"
+echo "You are about $age years old"
+
+if [ $# -eq 0 ]; then
+    echo "Usage: FileSystemMap <directory>"
+    exit 1
+fi
+directory="$1"
+
+if [ ! -d "$directory" ]; then
+    echo "Directory does not exist: $directory"
+    exit 1
+fi
+find "$directory" -type d -print
+find "$directory" -type f -print
