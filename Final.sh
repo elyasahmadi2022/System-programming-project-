@@ -51,4 +51,25 @@ countFormatsAndDisplay() {
     fi
 
     printf "%-30s%-30s%-30s\n" "Total Files:" "File Format:" "Total Size (KB):"
+   for file in *; do
+        if [[ -f "$file" ]]; then
+            format="${file##*.}"
+            size="$(du -k "$file" | awk '{print $1}')"
+            ((formatCounts[$format]++))
+            ((formatSizes[$format] += size))
+            ((totalFiles++))
+            ((totalSize += size))
+        fi
+    done
 
+    for format in "${!formatCounts[@]}"; do
+        count="${formatCounts[$format]}"
+        size="${formatSizes[$format]}"
+        printf "%-30s%-30s%-30s\n" "$count" "$format" "$size"
+    done
+
+    printf "\------------------------------------------------------\n"
+    printf "Total Number of Files:  %2d\n" "$totalFiles"
+    printf "Total Size of Files:    %2.2f KB\n" "$totalSize"
+    cd ..
+}
