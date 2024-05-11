@@ -73,3 +73,43 @@ countFormatsAndDisplay() {
     printf "Total Size of Files:    %2.2f KB\n" "$totalSize"
     cd ..
 }
+
+# Check if user provided the '-r' or '-w' flag
+if [[ "$1" == "-r" ]]; then
+    readPermissionFlag=true
+elif [[ "$1" == "-w" ]]; then   
+    writePermissionFlag=true
+fi
+
+# Get the directory path from command-line argument
+dirPath="$2"
+
+# Validate if the directory path exists
+if [[ ! -d "$dirPath" ]]; then
+    echo "Directory '$dirPath' does not exist."
+    exit 1
+fi
+
+fileAndDirCounts=$(countFilesAndDirs "$dirPath")
+fileCount=$(echo "$fileAndDirCounts" | awk '{print $1}')
+dirCount=$(echo "$fileAndDirCounts" | awk '{print $2}')
+executableCount=$(echo "$fileAndDirCounts" | awk '{print $3}')
+nonExecutableCount=$(echo "$fileAndDirCounts" | awk '{print $4}')
+readPermissionCount=$(echo "$fileAndDirCounts" | awk '{print $5}')
+writePermissionCount=$(echo "$fileAndDirCounts" | awk '{print $6}')
+
+printf "Total Directories:                %2d\n" "$dirCount"
+printf "Files with execute permission:    %2d\n" "$executableCount"
+printf "Files without execute permission: %2d\n" "$nonExecutableCount"
+
+# Display read permission count if the flag is provided
+if [[ -n $readPermissionFlag ]]; then
+    printf "Files with read permission:       %2d\n" "$readPermissionCount"
+fi
+
+# Display write permission count if the flag is provided
+if [[ -n $writePermissionFlag ]]; then
+    printf "Files with write permission:      %2d\n" "$writePermissionCount"
+fi
+
+countFormatsAndDisplay "$dirPath"
