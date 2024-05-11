@@ -34,7 +34,9 @@ countFilesAndDirs() {
             dirCount=$((dirCount + 1))
         fi
     done < <(find . -maxdepth 1 -print0)
- 
+    cd ..
+    echo "$fileCount $dirCount $executableCount $nonExecutableCount $readPermissionCount $writePermissionCount"
+}
 # Function to count the number of files with each format and display the table
 countFormatsAndDisplay() {
     local dirPath="$1"
