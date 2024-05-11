@@ -34,7 +34,19 @@ countFilesAndDirs() {
             dirCount=$((dirCount + 1))
         fi
     done < <(find . -maxdepth 1 -print0)
+ 
+# Function to count the number of files with each format and display the table
+countFormatsAndDisplay() {
+    local dirPath="$1"
+    local totalFiles=0
+    local totalSize=0
+    declare -A formatCounts
+    declare -A formatSizes
 
-    cd ..
-    echo "$fileCount $dirCount $executableCount $nonExecutableCount $readPermissionCount $writePermissionCount"
-}
+    if ! cd "$dirPath"; then
+        echo "Unable to change directory to '$dirPath'"
+        return 1
+    fi
+
+    printf "%-30s%-30s%-30s\n" "Total Files:" "File Format:" "Total Size (KB):"
+
